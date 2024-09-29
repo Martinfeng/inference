@@ -1,6 +1,11 @@
 FROM vllm/vllm-openai:v0.6.0
 
-COPY . /opt/inference
+# 安装 git（如果基础镜像中没有安装）
+RUN apt-get update && apt-get install -y git
+
+# 克隆整个仓库到指定目录 /opt/inference
+RUN git clone https://github.com/xorbitsai/inference.git /opt/inference
+
 WORKDIR /opt/inference
 
 ENV NVM_DIR /usr/local/nvm
@@ -28,10 +33,11 @@ RUN pip install --upgrade -i "$PIP_INDEX" pip && \
     pip install -i "$PIP_INDEX" "diskcache>=5.6.1" "jinja2>=2.11.3" && \
     # use pre-built whl package for llama-cpp-python, otherwise may core dump when init llama in some envs
     pip install "llama-cpp-python>=0.2.82" -i https://abetlen.github.io/llama-cpp-python/whl/cu124 && \
-    pip install -i "$PIP_INDEX" --upgrade-strategy only-if-needed -r https://raw.githubusercontent.com/xorbitsai/inference/main/xinference/deploy/docker/requirements.txt && \
+    pip install -i "$PIP_INDEX" --upgrade-strategy only-if-needed -r /opt/inference/xinference/deploy/docker/requirements.txt && \
     pip install -i "$PIP_INDEX" --no-deps sglang && \
     pip uninstall flashinfer -y && \
     pip install flashinfer -i https://flashinfer.ai/whl/cu124/torch2.4 && \
+    pip install --no-cache-dir git+https://github.com/huggingface/transformers.git@main#egg=transformers && \
     cd /opt/inference && \
     python3 setup.py build_web && \
     git restore . && \
