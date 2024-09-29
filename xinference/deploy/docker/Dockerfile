@@ -1,4 +1,4 @@
-FROM dockerproxy.cn/vllm/vllm-openai:v0.6.0
+FROM vllm/vllm-openai:v0.6.0
 
 # 安装 git（如果基础镜像中没有安装）
 RUN apt-get update && apt-get install -y git
