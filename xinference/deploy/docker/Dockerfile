@@ -1,11 +1,11 @@
 FROM vllm/vllm-openai:v0.6.0
 
 # 安装 git（如果基础镜像中没有安装）
-RUN apt-get update && apt-get install -y git
+# RUN apt-get update && apt-get install -y git
 
 # 克隆整个仓库到指定目录 /opt/inference
-RUN git clone https://github.com/xorbitsai/inference.git /opt/inference
-
+# RUN git clone https://github.com/xorbitsai/inference.git /opt/inference
+COPY . /opt/inference
 WORKDIR /opt/inference
 
 ENV NVM_DIR /usr/local/nvm
