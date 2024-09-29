@@ -28,7 +28,7 @@ RUN pip install --upgrade -i "$PIP_INDEX" pip && \
     pip install -i "$PIP_INDEX" "diskcache>=5.6.1" "jinja2>=2.11.3" && \
     # use pre-built whl package for llama-cpp-python, otherwise may core dump when init llama in some envs
     pip install "llama-cpp-python>=0.2.82" -i https://abetlen.github.io/llama-cpp-python/whl/cu124 && \
-    pip install -i "$PIP_INDEX" --upgrade-strategy only-if-needed -r https://github.com/xorbitsai/inference/blob/main/xinference/deploy/docker/requirements.txt && \
+    pip install -i "$PIP_INDEX" --upgrade-strategy only-if-needed -r https://raw.githubusercontent.com/xorbitsai/inference/main/xinference/deploy/docker/requirements.txt && \
     pip install -i "$PIP_INDEX" --no-deps sglang && \
     pip uninstall flashinfer -y && \
     pip install flashinfer -i https://flashinfer.ai/whl/cu124/torch2.4 && \
